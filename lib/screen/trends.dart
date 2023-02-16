@@ -39,12 +39,6 @@ class _TrendsState extends State<Trends> {
     });
   }
 
-  List<SampleData> sampleData = [
-    SampleData(date: DateTime.now(), rate: 2),
-    SampleData(date: DateTime.now(), rate: 5),
-    SampleData(date: DateTime.now(), rate: 3),
-    SampleData(date: DateTime.now(), rate: 7),
-  ];
   Widget build(BuildContext context) {
     return _isLoading
         ? const Center(
@@ -82,6 +76,9 @@ class _TrendsState extends State<Trends> {
                       rightTitles: AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
                       ),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
                     ),
                     lineBarsData: [
                       LineChartBarData(
@@ -104,11 +101,4 @@ class _TrendsState extends State<Trends> {
                 )),
               );
   }
-}
-
-class SampleData {
-  final DateTime date;
-  final double rate;
-
-  SampleData({required this.date, required this.rate});
 }
