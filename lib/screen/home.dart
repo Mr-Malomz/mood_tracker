@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mood_tracker/mood_service.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,6 +10,31 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<int> list = <int>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _description = TextEditingController();
+  late int _rate;
+  bool _isLoading = false;
+
+  _createMood() {
+    setState(() {
+      _isLoading = true;
+    });
+    MoodService().createMood(_rate, _description.text).then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+      _formKey.currentState!.reset();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Mood saved successfully!')),
+      );
+    }).catchError((_) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error saving mood!')),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +96,11 @@ class _HomeState extends State<Home> {
                               borderSide: const BorderSide(color: Colors.red),
                             ),
                           ),
-                          onChanged: ((value) {})),
+                          onChanged: ((value) {
+                            setState(() {
+                              _rate = value!;
+                            });
+                          })),
                     ],
                   ),
                 ],
@@ -88,6 +118,7 @@ class _HomeState extends State<Home> {
                   ),
                   const SizedBox(height: 5.0),
                   TextFormField(
+                    controller: _description,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please input your feeling';
@@ -124,11 +155,13 @@ class _HomeState extends State<Home> {
                 height: 45,
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      //todo
-                    }
-                  },
+                  onPressed: _isLoading
+                      ? null
+                      : () {
+                          if (_formKey.currentState!.validate()) {
+                            _createMood();
+                          }
+                        },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.blue),
