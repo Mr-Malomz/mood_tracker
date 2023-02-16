@@ -29,7 +29,18 @@ class _TrendsState extends State<Trends> {
             show: true,
             border: Border.all(),
           ),
-          titlesData: LineTitlesHelper.getTitleData(sampleData),
+          titlesData: FlTitlesData(
+            show: true,
+            topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+          ),
           lineBarsData: [
             LineChartBarData(
               spots: sampleData
@@ -58,55 +69,4 @@ class SampleData {
   final double rate;
 
   SampleData({required this.date, required this.rate});
-}
-
-class LineTitlesHelper {
-  static getTitleData(List<SampleData> data) => FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 22,
-            getTitlesWidget: (value, meta) {
-              const style = TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 14,
-              );
-              Widget text;
-              switch (value.toInt()) {
-                case 0:
-                  text = Text('${data[0].date.hour}:${data[0].date.minute}',
-                      style: style);
-                  break;
-                case 1:
-                  text = Text('${data[1].date.hour}:${data[1].date.minute}',
-                      style: style);
-                  break;
-                case 2:
-                  text = Text('${data[2].date.hour}:${data[3].date.minute}',
-                      style: style);
-                  break;
-                case 3:
-                  text = Text('${data[3].date.hour}:${data[3].date.minute}',
-                      style: style);
-                  break;
-                default:
-                  text = Text('', style: style);
-                  break;
-              }
-
-              return SideTitleWidget(
-                axisSide: meta.axisSide,
-                child: text,
-              );
-            },
-          ),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      );
 }
