@@ -1,8 +1,8 @@
 class AppConstant {
-  final String databaseId = "63ed63ffd48014139d8e";
-  final String projectId = "63ed636d0cc30cca57f9";
-  final String collectionId = "63ed641200560e5a4485";
-  final String endpoint = "http://192.168.1.166/v1";
+  final String databaseId = "REPLACE WITH DATABASE ID";
+  final String projectId = "REPLACE WITH PROJECT ID";
+  final String collectionId = "REPLACE WITH COLLECTION ID";
+  final String endpoint = "ENDPOINT";
 }
 
 class Mood {
